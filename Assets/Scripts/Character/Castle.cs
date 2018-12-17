@@ -12,19 +12,22 @@ namespace Character
     public class Castle : MonoBehaviour {
 
         private State _state;
-        // Use this for initialization
-        void Awake () {
 
+        private CenterProcess CenterProcess;
+        // Use this for initialization
+        void Awake ()
+        {
+            CenterProcess = GameObject.Find("CenterProcess").GetComponent<CenterProcess>();
             _state = this.gameObject.GetComponent<State>();
             _state.Maxhealth += UpgradeTree.PlayerArchive.ExtraCastleHpLevel * SystemOption.ExCastleHpPerL;
             _state.Health += UpgradeTree.PlayerArchive.ExtraCastleHpLevel * SystemOption.ExCastleHpPerL;
-            CenterProcess.ModeCenterProcess.SetTargetState(this.gameObject);
+            CenterProcess.SetTargetState(this.gameObject);
             
         }
 	
         // Update is called once per frame
         void Update () {
-            CenterProcess.ModeCenterProcess.SetTargetState(this.gameObject);     
+            CenterProcess.SetTargetState(this.gameObject);     
         }
     }
 

@@ -33,15 +33,17 @@ namespace Character
         public AudioSource BuffFx;
         
         private readonly Object _locker = new Object();
+        private CenterProcess CenterProcess;
         
         
         void Start()
         {
+            CenterProcess = GameObject.Find("CenterProcess").GetComponent<CenterProcess>();
             _anime = GetComponent<Animator>();                                //获取动画
             _buffRender = BuffSprite.GetComponent<SpriteRenderer>();
             if (gameObject.CompareTag("Monster"))                            //如果单位的Tag为Monster，则向CenterProcess执行添加怪物数量操作（用于当前怪物数量统计面板）
             {
-                CenterProcess.ModeCenterProcess.AddMonster();
+                CenterProcess._monsterCol++;
             }
             _internalBuffState = new NormalBuffState(this);                  //初始化Buff状态
             if (IsAvatar)                                                    //如果当前无敌开关开启则直接转向无敌Buff状态
@@ -72,7 +74,7 @@ namespace Character
                     }
 
                     BuffCheck(attackbuff);                                    //识别伤害来源的Buff，并更新全面板（受伤更新）
-                    CenterProcess.ModeCenterProcess.NotifyDashBoard();
+                    CenterProcess.NotifyDashBoard();
                     /*if (isAvatar == false && attackbuff!=Buff.Normal)
                     {
                         _internalBuff = attackbuff;
@@ -89,15 +91,16 @@ namespace Character
         {
             if (_isdead == false)
             {
+                //gameObject.GetComponent<Rigidbody2D>().enable = false;
                 _isdead = true;
                 //anime.SetBool("isDead",true);
                
-                CenterProcess.ModeCenterProcess.AddIntervalCoin(CoinValue);                        //如果本单位被击杀则给与对应的货币    
-                CenterProcess.ModeCenterProcess.OneShotKilling(shootername, guntype, Name);        //并更新一条击杀信息（给击杀面板）
+                CenterProcess.AddIntervalCoin(CoinValue);                        //如果本单位被击杀则给与对应的货币    
+                CenterProcess.OneShotKilling(shootername, guntype, Name);        //并更新一条击杀信息（给击杀面板）
 
                 if (gameObject.CompareTag("Monster"))                                                //判定本单位的Tag为Monster时减少当前场景一个怪物计数
                 {
-                    CenterProcess.ModeCenterProcess.RemoveMonster();
+                    CenterProcess.RemoveMonster();
                     _anime.SetBool("isDead",true);
                     
                     Invoke("Destoryself",1f); 
@@ -107,7 +110,7 @@ namespace Character
                 }else if (gameObject.CompareTag("Castle") || gameObject.CompareTag("Player"))        //判定本单位的Tag为Castle或者Player时执行GameOver相关函数
                 {
                     
-                    CenterProcess.ModeCenterProcess.CheckGameOver();
+                    CenterProcess.CheckGameOver();
                     CancelInvoke("Destoryself");
                 }
                             

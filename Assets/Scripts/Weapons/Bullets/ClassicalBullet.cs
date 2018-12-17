@@ -36,22 +36,35 @@ namespace Weapons.Bullets
                 State state = other.GetComponent<State>();
                 if (!other.CompareTag("Terrain"))
                 {
-                    Hit(Bullet.Shooter.Gunbuff);
-                    _extraDamage = Bullet.IsPlayer
-                            ? UpgradeTree.PlayerArchive.ExtraAttackLevel * SystemOption.ExPlayerAttackPerL
-                            : 0;
+                    if (Bullet.IsPlayer)
+                    {
+                        if (other.CompareTag("Monster"))
+                        {
+                            Hit(Bullet.Shooter.Gunbuff);
+                            _extraDamage = Bullet.IsPlayer
+                                ? UpgradeTree.PlayerArchive.ExtraAttackLevel * SystemOption.ExPlayerAttackPerL
+                                : 0;
 
-                    other.gameObject.GetComponent<Rigidbody2D>().AddForce(Bullet.Endposition.normalized*10f,ForceMode2D.Impulse); 
-                    state.Hurt(Bullet.Shooter.Damage + _extraDamage, Bullet.Shootername, Bullet.Shooter.Gunname,Bullet.Shooter.Gunbuff);
-                }
-                else
-                {
-                    
-                }
-                
-                
+                            //other.gameObject.GetComponent<Rigidbody2D>().AddForce(Bullet.Endposition.normalized*5f,ForceMode2D.Impulse); 
+                            state.Hurt(Bullet.Shooter.Damage + _extraDamage, Bullet.Shootername, Bullet.Shooter.Gunname,Bullet.Shooter.Gunbuff);
+                            Bullet.Destoryself();
+                        }
+                    }
+                    else
+                    {
+                        if (other.CompareTag("Player"))
+                        {
+                            Hit(Bullet.Shooter.Gunbuff);
+                            _extraDamage = Bullet.IsPlayer
+                                ? UpgradeTree.PlayerArchive.ExtraAttackLevel * SystemOption.ExPlayerAttackPerL
+                                : 0;
 
-                Bullet.Destoryself();
+                            //other.gameObject.GetComponent<Rigidbody2D>().AddForce(Bullet.Endposition.normalized*5f,ForceMode2D.Impulse); 
+                            state.Hurt(Bullet.Shooter.Damage + _extraDamage, Bullet.Shootername, Bullet.Shooter.Gunname,Bullet.Shooter.Gunbuff);
+                            Bullet.Destoryself();
+                        }
+                    }
+                }
             }
         }
 
@@ -59,6 +72,7 @@ namespace Weapons.Bullets
         {
             HitSoundPlay(buff);
         }
+        
         
         
 

@@ -34,7 +34,7 @@ namespace Character.Player
             
             GameInformation gameinfo = new GameInformation();
             
-            MySqlConnection conn = GetConnection(); 
+           /* MySqlConnection conn = GetConnection(); 
             MySqlCommand cmd = new MySqlCommand("select * from gameinformation where userId ='"+LoginService.userId+"';", conn);
             MySqlDataReader reader = cmd.ExecuteReader();
             // 逐行读取数据
@@ -45,14 +45,14 @@ namespace Character.Player
                 gameinfo.PlayerSpeed = reader.GetInt32("playerSpeed");
                 gameinfo.PlayerArmor = reader.GetInt32("playerArmor");
                 gameinfo.FortressHp  = reader.GetInt32("fortressHp");
-            }
+            }*/
 
             ExtraHpLevel = gameinfo.PlayerHp;
             ExtraAttackLevel = gameinfo.PlayerArmor;
             ExtraArmorLevel = 0;
             ExtraCastleHpLevel = gameinfo.FortressHp;
             ExtraBulletSpecialLevel = gameinfo.PlayerSpeed;
-            reader.Close();
+            //reader.Close();
         }
 
 

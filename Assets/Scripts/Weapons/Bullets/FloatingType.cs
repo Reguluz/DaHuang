@@ -4,10 +4,11 @@ using UnityEngine;
 
 namespace Weapons.Bullets
 {
-	[RequireComponent(typeof(Bullet))]
+	
 	public class FloatingType : MonoBehaviour
 	{
 		protected Bullet Bullet;
+		protected TrackBullet TrackBullet;
 		protected AudioSource AudioSource;
 		protected Animation Animation;
 		public AudioClip IceHit;
