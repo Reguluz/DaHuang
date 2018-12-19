@@ -49,6 +49,7 @@ namespace UI
 					case Condition.MonsterClear: Conditions.text = "总算是抵挡住了妖异的进攻";
 						break;
 			}
+			
 			Display();
 			//GameObject.Find("CenterProcess").GetComponent<CenterProcess>().UpdateAccount();
 			

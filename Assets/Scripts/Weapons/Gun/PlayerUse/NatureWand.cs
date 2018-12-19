@@ -12,7 +12,7 @@ namespace Weapons.Gun.PlayerUse
 		public NatureWand()
 		{
 			Gunname = "自然法杖";
-			Damage = 20;
+			Damage = 999999;
 			Cooldown = 0.5;
 			MaxTime = 20;
 			IntervalTime = 20;
@@ -29,10 +29,7 @@ namespace Weapons.Gun.PlayerUse
                 
 				//以下是花式创建子弹区域，一个Create创建一个子弹
 				CreateBullet.TotalScene.CreateClassical(name,this,position,muzzleOrientation,BulletType.Magicball);
-				CreateBullet.TotalScene.CreateClassical(name,this,position,PublicFunction.RotationMatrix(muzzleOrientation,-10), BulletType.Magicball);
-				CreateBullet.TotalScene.CreateClassical(name,this,position,PublicFunction.RotationMatrix(muzzleOrientation,10), BulletType.Magicball);
-				CreateBullet.TotalScene.CreateClassical(name,this,position,PublicFunction.RotationMatrix(muzzleOrientation,-5), BulletType.Magicball);
-				CreateBullet.TotalScene.CreateClassical(name,this,position,PublicFunction.RotationMatrix(muzzleOrientation,5), BulletType.Magicball);
+				CreateBullet.TotalScene.CreateClassical(name,this,position,muzzleOrientation,BulletType.Magicball);
 			
 				PlayerAudioCollection.GunCollection.Play("WandShoot");
 			}

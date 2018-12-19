@@ -86,42 +86,76 @@ namespace Weapons.Gun
             if (_createname == "FireBow")				//枪支丢弃时不能通过Gunname枚举获取信息，只能通过Gun.gunname这个字符串来获取信息，所以这里直接用String类来判断
             {
                 return new FireBow();
-                _currentGun = "PlayerGun";
             }
             else if (_createname == "CrossBow")
             {
 	            return new CrossBow();
-                _currentGun = "PlayerGun";
             }
             else if (_createname == "NatureWand")
             {
 	            return new NatureWand();
-	            _currentGun = "PlayerShotgun";
             }
             else if (_createname == "ExplodeFireWand")
             {
 	            return new ExplodeFireWand();
-	            _currentGun = "RPG";
             }else if (_createname == "FreezeBow")
             {
 	            return new FreezeBow();
-                _currentGun = "PlayerGun";
             }else if (_createname == "NatureBow")
             {
 	            return new NatureBow();
-	            _currentGun = "PlayerGun";
             }else if (_createname == "Needle")
             {
 	            return new Needle();
-	            _currentGun = "PlayerGun";
             }else if (_createname == "FreezeStar")
             {
 	            return new FreezeStar();
-	            _currentGun = "PlayerGun";
             }else if (_createname == "TrackGun")
             {
 	            return new TrackGun();
-	            _currentGun = "PlayerGun";
+            }else if (_createname == "Red01")
+            {
+	            return new Red01();
+            }else if (_createname == "Red02")
+            {
+	            return new Red02();
+            }else if (_createname == "Red03")
+            {
+	            return new Red03();
+            }else if (_createname == "Red04")
+            {
+	            return new Red04();
+            }else if (_createname == "Red05")
+            {
+	            return new Red05();
+            }else if (_createname == "Yellow01")
+            {
+	            return new Yellow01();
+            }else if (_createname == "Yellow02")
+            {
+	            return new Yellow02();
+            }else if (_createname == "Yellow03")
+            {
+	            return new Yellow03();
+            }else if (_createname == "Yellow04")
+            {
+	            return new Yellow04();
+            }else if (_createname == "Blue01")
+            {
+	            return new Blue01();
+            }else if (_createname == "Blue02")
+            {
+	            return new Blue02();
+            }else if (_createname == "Blue03")
+            {
+	            return new Blue03();
+            }else if (_createname == "Blue04")
+            {
+	            return new Blue04();
+            }
+            else if (_createname == "Blue05")
+            {
+	            return new Blue05();
             }
 
 			return null;

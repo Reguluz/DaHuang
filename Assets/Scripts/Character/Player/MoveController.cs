@@ -15,13 +15,24 @@ namespace Character.Player
 		private Vector3 _muzzleOrientation;
 		private Rigidbody2D rb;
 		private float cd;
-		// Use this for initialization
-		void Start ()
+        private float _clamp1;
+        private float _clamp2;
+
+        public Camera cam;
+        
+        // Use this for initialization
+        void Start ()
 		{
-			_fastspeed = 2 * Speed;
+            float orthographicSize = cam.orthographicSize;
+            float aspectRatio = Screen.width * 1.0f / Screen.height;
+            _clamp1 = cam.transform.position.x - orthographicSize * 2f * aspectRatio / 2.0f;
+            _clamp2 = cam.transform.position.x + orthographicSize * 2f * aspectRatio / 2.0f;
+
+            _fastspeed = 2 * Speed;
             anime = GetComponent<Animator>();
 			_state = this.GetComponent<State>();
 			rb = GetComponent<Rigidbody2D>();
+			anime.SetBool("shift", false);
 		}
 	
 		// Update is called once per frame
@@ -32,16 +43,39 @@ namespace Character.Player
 				{
 					if (cd == 0)
 					{
-						cd = 1f;
-						GetMousePosition();               
-						Vector3 force = _muzzleOrientation.normalized * _fastspeed*80;
+                        anime.SetBool("shift", true);
+                        cd = 0.5f;
+						GetMousePosition();          
+						Debug.Log(rb.velocity);
+						Vector3 force = Vector3.zero;
+						if (Input.GetKey(KeyCode.A))
+						{
+							force += Vector3.left * _fastspeed*80;
+						}else if (Input.GetKey(KeyCode.D))
+						{
+							force += Vector3.right * _fastspeed*80;
+						}
+						else
+						{
+							force += Vector3.right * _fastspeed*80;
+						}
+						
+						if (Input.GetKey(KeyCode.W))
+						{
+							force += Vector3.up * _fastspeed*80;
+						}else if (Input.GetKey(KeyCode.S))
+						{
+							force += Vector3.down * _fastspeed*80;
+						}
+						
 						rb.AddForce(force);
 					}
-	            
+					
 					//_local = _fastspeed * SystemOption.SceneScale * _state.Speedscale;
 				}
 				else
 				{
+					anime.SetBool("shift", false);
 					_local = Speed * SystemOption.SceneScale * _state.Speedscale;
 				}
 
@@ -79,7 +113,8 @@ namespace Character.Player
             float v = Input.GetAxis("Vertical");
             Vector3 vector = new Vector3(h, v, 0).normalized;
             transform.Translate(vector * _local * Time.deltaTime);
-            anime.SetFloat("speed", Mathf.Abs(h) + Mathf.Abs(v));
+            transform.position = new Vector3(Mathf.Clamp(transform.position.x, _clamp1, _clamp2), transform.position.y, transform.position.z);
+            //anime.SetFloat("speed", Mathf.Abs(h) + Mathf.Abs(v));
 		}
 
 		private void GetMousePosition()

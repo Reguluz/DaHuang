@@ -12,12 +12,12 @@ namespace Weapons.Gun
 {
     public class CreateBullet : MonoBehaviour
     {
-        private GameObject _bullet;
+        /*private GameObject _bullet;
         public GameObject Classical;
         public GameObject Penetrate;
         public GameObject Linker;
         public GameObject Bomb;
-        public GameObject Trackball;
+        public GameObject Trackball;*/
 
         public static CreateBullet TotalScene;
         
@@ -44,7 +44,7 @@ namespace Weapons.Gun
 		
         }
         
-        public void CreateMultiply(String bulletype,String shootername,Gun gun,Vector3 position,Vector3 muzzleOrientation,BulletType bt)
+        /*public void CreateMultiply(String bulletype,String shootername,Gun gun,Vector3 position,Vector3 muzzleOrientation,BulletType bt)
         {
             _bullet = (GameObject) Resources.Load("MultiplyBullet/"+bulletype, typeof(GameObject));
             Vector3 start = position + muzzleOrientation.normalized * _bullet.transform.localScale.magnitude*SystemOption.SceneScale;
@@ -57,7 +57,7 @@ namespace Weapons.Gun
             bullet.SetSprite(bt);
             bullet.Shootout(shootername,gun,start,muzzleOrientation);
             
-        }
+        }*/
         
         public void CreateTrack(String shootername,Gun gun,Vector3 position,Vector3 muzzleOrientation,float rotateper,BulletType bt)
         {
@@ -66,7 +66,7 @@ namespace Weapons.Gun
                 Vector3 start = position + muzzleOrientation.normalized * 
                                 (SystemOption.StartBulletOffsetScale + gun.BulletSize + UpgradeTree.PlayerArchive.ExtraBulletSpecialLevel * SystemOption.ExBulletScalePerL);
                 start.z = SystemOption.ItemZPosition;
-                GameObject newBullet = NewObjectPool.Current.Generate(Trackball.name);
+                GameObject newBullet = NewObjectPool.Current.Generate("TrackBall");
 
                 newBullet.transform.right = muzzleOrientation;
                 newBullet.GetComponent<SpriteRenderer>().color = BuffColor(gun.Gunbuff);
@@ -88,7 +88,7 @@ namespace Weapons.Gun
                 Vector3 start = position + muzzleOrientation.normalized * 
                                 (SystemOption.StartBulletOffsetScale + gun.BulletSize + UpgradeTree.PlayerArchive.ExtraBulletSpecialLevel * SystemOption.ExBulletScalePerL);
                 start.z = SystemOption.ItemZPosition;
-                GameObject newBullet = NewObjectPool.Current.Generate(Classical.name);
+                GameObject newBullet = NewObjectPool.Current.Generate("ClassicalBullet");
 
                 newBullet.transform.right = muzzleOrientation;
                 newBullet.GetComponent<SpriteRenderer>().color = BuffColor(gun.Gunbuff);
@@ -106,7 +106,7 @@ namespace Weapons.Gun
                 Vector3 start = position + muzzleOrientation.normalized * 
                                 (SystemOption.StartBulletOffsetScale + gun.BulletSize);
                 start.z = SystemOption.ItemZPosition;
-                GameObject newBullet =  ObjectPool.current.GetObject(Classical);
+                GameObject newBullet =  NewObjectPool.Current.Generate("ClassicalBullet");
                 
                 newBullet.transform.right = muzzleOrientation;
                 newBullet.GetComponent<SpriteRenderer>().color = BuffColor(gun.Gunbuff);
@@ -125,7 +125,7 @@ namespace Weapons.Gun
             Vector3 start = position + muzzleOrientation.normalized * 
                             (SystemOption.StartBulletOffsetScale + gun.BulletSize + UpgradeTree.PlayerArchive.ExtraBulletSpecialLevel * SystemOption.ExBulletScalePerL * SystemOption.SceneScale);
             start.z = SystemOption.ItemZPosition;
-            GameObject newBullet = ObjectPool.current.GetObject(Penetrate);
+            GameObject newBullet = NewObjectPool.Current.Generate("PentrateBullet");
             
             
             newBullet.transform.right = muzzleOrientation;
@@ -147,7 +147,7 @@ namespace Weapons.Gun
             Vector3 start = position + muzzleOrientation.normalized * 
                             (SystemOption.StartBulletOffsetScale + gun.BulletSize + UpgradeTree.PlayerArchive.ExtraBulletSpecialLevel * SystemOption.ExBulletScalePerL * SystemOption.SceneScale);
             start.z = SystemOption.ItemZPosition;
-            GameObject newBullet = ObjectPool.current.GetObject(Linker);
+            GameObject newBullet = NewObjectPool.Current.Generate("BulletT");
             
             
             newBullet.transform.right = muzzleOrientation;
@@ -165,7 +165,7 @@ namespace Weapons.Gun
                 Vector3 start = position + muzzleOrientation.normalized * 
                                 (SystemOption.StartBulletOffsetScale + gun.BulletSize + UpgradeTree.PlayerArchive.ExtraBulletSpecialLevel * SystemOption.ExBulletScalePerL * SystemOption.SceneScale);
                 start.z = SystemOption.ItemZPosition;
-                GameObject newBullet = ObjectPool.current.GetObject(Bomb);
+                GameObject newBullet = NewObjectPool.Current.Generate("BombBullet");
             
             
                 newBullet.transform.right = muzzleOrientation;
@@ -186,7 +186,7 @@ namespace Weapons.Gun
                 Vector3 start = position + muzzleOrientation.normalized * 
                                 (SystemOption.StartBulletOffsetScale + gun.BulletSize);
                 start.z = SystemOption.ItemZPosition;
-                GameObject newBullet = ObjectPool.current.GetObject(Bomb);
+                GameObject newBullet = NewObjectPool.Current.Generate("BombBullet");
             
             
                 newBullet.transform.right = muzzleOrientation;
@@ -198,6 +198,125 @@ namespace Weapons.Gun
                 newBullet.GetComponent<BombBullet>().BombRadius = radius;
                 newBullet.GetComponent<BombBullet>().BombForce = force;
                 Debug.DrawLine(position,bullet.transform.position,Color.red,2);
+            }
+        }
+        
+        
+        public void CreateRed(String shootername,Gun gun,Vector3 position,Vector3 muzzleOrientation,BulletType bt,Boolean isPlayer = true)
+        {
+            if (isPlayer)
+            {
+                Debug.Log("PlayerClassicalShoot");
+                Vector3 start = position + muzzleOrientation.normalized * 
+                                (SystemOption.StartBulletOffsetScale + gun.BulletSize + UpgradeTree.PlayerArchive.ExtraBulletSpecialLevel * SystemOption.ExBulletScalePerL);
+                start.z = SystemOption.ItemZPosition;
+                GameObject newBullet = NewObjectPool.Current.Generate("BulletF");
+
+                newBullet.transform.right = muzzleOrientation;
+                newBullet.GetComponent<SpriteRenderer>().color = BuffColor(gun.Gunbuff);
+                Bullet bullet = newBullet.GetComponent<Bullet>();
+                bullet.SetSprite(bt);
+                bullet.Shootout(shootername,gun, start,muzzleOrientation,true);
+                newBullet.GetComponent<Transform>().localScale = 
+                    new Vector3(gun.BulletSize + UpgradeTree.PlayerArchive.ExtraBulletSpecialLevel * SystemOption.ExBulletScalePerL * SystemOption.SceneScale,
+                                gun.BulletSize + UpgradeTree.PlayerArchive.ExtraBulletSpecialLevel * SystemOption.ExBulletScalePerL * SystemOption.SceneScale,
+                                gun.BulletSize + UpgradeTree.PlayerArchive.ExtraBulletSpecialLevel * SystemOption.ExBulletScalePerL * SystemOption.SceneScale);
+                //Debug.DrawLine(position,start,Color.red,2);
+            }
+            else
+            {
+                Vector3 start = position + muzzleOrientation.normalized * 
+                                (SystemOption.StartBulletOffsetScale + gun.BulletSize);
+                start.z = SystemOption.ItemZPosition;
+                GameObject newBullet =  NewObjectPool.Current.Generate("BulletF");
+                
+                newBullet.transform.right = muzzleOrientation;
+                newBullet.GetComponent<SpriteRenderer>().color = BuffColor(gun.Gunbuff);
+                Bullet bullet = newBullet.GetComponent<Bullet>();
+                bullet.SetSprite(bt);
+                bullet.Shootout(shootername, gun, start, muzzleOrientation, false);
+                newBullet.GetComponent<Transform>().localScale =
+                    new Vector3(gun.BulletSize, gun.BulletSize, gun.BulletSize);
+                //Debug.DrawLine(position,bullet.transform.position,Color.red,2);
+            }
+        }
+        
+        public void CreateYellow(String shootername,Gun gun,Vector3 position,Vector3 muzzleOrientation,BulletType bt,Boolean isPlayer = true)
+        {
+            if (isPlayer)
+            {
+                Debug.Log("PlayerClassicalShoot");
+                Vector3 start = position + muzzleOrientation.normalized * 
+                                (SystemOption.StartBulletOffsetScale + gun.BulletSize + UpgradeTree.PlayerArchive.ExtraBulletSpecialLevel * SystemOption.ExBulletScalePerL);
+                start.z = SystemOption.ItemZPosition;
+                GameObject newBullet = NewObjectPool.Current.Generate("BulletC");
+
+                newBullet.transform.right = muzzleOrientation;
+                newBullet.GetComponent<SpriteRenderer>().color = BuffColor(gun.Gunbuff);
+                Bullet bullet = newBullet.GetComponent<Bullet>();
+                bullet.SetSprite(bt);
+                bullet.Shootout(shootername,gun, start,muzzleOrientation,true);
+                newBullet.GetComponent<Transform>().localScale = 
+                    new Vector3(gun.BulletSize + UpgradeTree.PlayerArchive.ExtraBulletSpecialLevel * SystemOption.ExBulletScalePerL * SystemOption.SceneScale,
+                                gun.BulletSize + UpgradeTree.PlayerArchive.ExtraBulletSpecialLevel * SystemOption.ExBulletScalePerL * SystemOption.SceneScale,
+                                gun.BulletSize + UpgradeTree.PlayerArchive.ExtraBulletSpecialLevel * SystemOption.ExBulletScalePerL * SystemOption.SceneScale);
+                //Debug.DrawLine(position,start,Color.red,2);
+            }
+            else
+            {
+                Vector3 start = position + muzzleOrientation.normalized * 
+                                (SystemOption.StartBulletOffsetScale + gun.BulletSize);
+                start.z = SystemOption.ItemZPosition;
+                GameObject newBullet =  NewObjectPool.Current.Generate("BulletC");
+                
+                newBullet.transform.right = muzzleOrientation;
+                newBullet.GetComponent<SpriteRenderer>().color = BuffColor(gun.Gunbuff);
+                Bullet bullet = newBullet.GetComponent<Bullet>();
+                bullet.SetSprite(bt);
+                bullet.Shootout(shootername, gun, start, muzzleOrientation, false);
+                newBullet.GetComponent<Transform>().localScale =
+                    new Vector3(gun.BulletSize, gun.BulletSize, gun.BulletSize);
+                //Debug.DrawLine(position,bullet.transform.position,Color.red,2);
+            }
+        }
+        
+        
+        public void CreateBlue(String shootername,Gun gun,Vector3 position,Vector3 muzzleOrientation,BulletType bt,Boolean isPlayer = true)
+        {
+            if (isPlayer)
+            {
+                Debug.Log("PlayerClassicalShoot");
+                Vector3 start = position + muzzleOrientation.normalized * 
+                                (SystemOption.StartBulletOffsetScale + gun.BulletSize + UpgradeTree.PlayerArchive.ExtraBulletSpecialLevel * SystemOption.ExBulletScalePerL);
+                start.z = SystemOption.ItemZPosition;
+                GameObject newBullet = NewObjectPool.Current.Generate("BulletT");
+
+                newBullet.transform.right = muzzleOrientation;
+                newBullet.GetComponent<SpriteRenderer>().color = BuffColor(gun.Gunbuff);
+                Bullet bullet = newBullet.GetComponent<Bullet>();
+                bullet.SetSprite(bt);
+                bullet.Shootout(shootername,gun, start,muzzleOrientation,true);
+                newBullet.GetComponent<Transform>().localScale = 
+                    new Vector3(gun.BulletSize + UpgradeTree.PlayerArchive.ExtraBulletSpecialLevel * SystemOption.ExBulletScalePerL * SystemOption.SceneScale,
+                                gun.BulletSize + UpgradeTree.PlayerArchive.ExtraBulletSpecialLevel * SystemOption.ExBulletScalePerL * SystemOption.SceneScale,
+                                gun.BulletSize + UpgradeTree.PlayerArchive.ExtraBulletSpecialLevel * SystemOption.ExBulletScalePerL * SystemOption.SceneScale);
+                //Debug.DrawLine(position,start,Color.red,2);
+            }
+            else
+            {
+                Vector3 start = position + muzzleOrientation.normalized * 
+                                (SystemOption.StartBulletOffsetScale + gun.BulletSize);
+                start.z = SystemOption.ItemZPosition;
+                GameObject newBullet =  NewObjectPool.Current.Generate("BulletT");
+                
+                newBullet.transform.right = muzzleOrientation;
+                newBullet.GetComponent<SpriteRenderer>().color = BuffColor(gun.Gunbuff);
+                Bullet bullet = newBullet.GetComponent<Bullet>();
+                bullet.SetSprite(bt);
+                bullet.Shootout(shootername, gun, start, muzzleOrientation, false);
+                newBullet.GetComponent<Transform>().localScale =
+                    new Vector3(gun.BulletSize, gun.BulletSize, gun.BulletSize);
+                //Debug.DrawLine(position,bullet.transform.position,Color.red,2);
             }
         }
 

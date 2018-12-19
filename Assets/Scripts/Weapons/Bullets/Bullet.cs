@@ -28,7 +28,7 @@ namespace Weapons.Bullets
         private void Awake()
         {
             _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-            SetSprite(BulletType.Magicball);
+            //SetSprite(BulletType.Magicball);
         }
 
         void OnEnable()

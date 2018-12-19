@@ -16,10 +16,10 @@ namespace Character.Player
         public Gun        Gun;
         private double    _intervaltime;
         private Vector3   _shootposition;
-        private Vector3   _muzzleOrientation;
+        private static Vector3   _muzzleOrientation = Vector3.right;
 
         private State _state;
-
+        private Animator _anime;
 
         public GameObject GunShow;
         private SpriteRenderer _gunsprite;
@@ -34,6 +34,8 @@ namespace Character.Player
         // Use this for initialization
         void Awake ()
         {
+            _anime = GetComponent<Animator>();
+
             CenterProcess = GameObject.Find("CenterProcess").GetComponent<CenterProcess>();
             _gunsprite = GunShow.GetComponent<SpriteRenderer>();
             _state = this.gameObject.GetComponent<State>();          
@@ -59,6 +61,16 @@ namespace Character.Player
         // Update is called once per frame
         void Update ()
         {
+            switch (Gun.Gunname)
+            {
+                case "破旧的手枪":
+                    _anime.SetInteger("gun", 0);
+                    break;
+                case "追踪导弹":
+                    _anime.SetInteger("gun", 3);
+                    break;
+
+            }
             if (!_state.Isdead)
             {
                 GetFunctionKeyDown(); 
@@ -140,7 +152,7 @@ namespace Character.Player
             
             Vector3 pos  = Camera.main.WorldToScreenPoint(transform.position);
             Vector3 mousePos = new Vector3(Input.mousePosition.x, Input.mousePosition.y, pos.z);
-            _muzzleOrientation = Camera.main.ScreenToWorldPoint(mousePos) - GunShow.transform.position;
+            //_muzzleOrientation = Camera.main.ScreenToWorldPoint(mousePos) - GunShow.transform.position;
         }
         
         /*private void Flip()

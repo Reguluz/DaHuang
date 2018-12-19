@@ -29,21 +29,13 @@ namespace UI
         public void OnPointerUp()
         {
             // 判断当前位于哪个区间，设置自动滑动至的位置
-            if (m_Scrollbar.value <= 0.125f)
+            if (m_Scrollbar.value <= 0.25f)
             {
                 mTargetValue = 0;
             }
-            else if (m_Scrollbar.value <= 0.375f)
-            {
-                mTargetValue = 0.25f;
-            }
-            else if (m_Scrollbar.value <= 0.625f)
+            else if (m_Scrollbar.value <= 0.75f)
             {
                 mTargetValue = 0.5f;
-            }
-            else if (m_Scrollbar.value <= 0.875f)
-            {
-                mTargetValue = 0.75f;
             }
             else
             {
@@ -59,18 +51,12 @@ namespace UI
             switch (value)
             {
                 case 1:
-                    mTargetValue = 0;
+                    mTargetValue = 0f;
                     break;
                 case 2:
-                    mTargetValue = 0.25f;
-                    break;
-                case 3:
                     mTargetValue = 0.5f;
                     break;
-                case 4:
-                    mTargetValue = 0.75f;
-                    break;
-                case 5:
+                case 3:
                     mTargetValue = 1f;
                     break;
                 default:

@@ -34,10 +34,11 @@ namespace Character
         
         private readonly Object _locker = new Object();
         private CenterProcess CenterProcess;
-        
+        private Rigidbody2D _rb;
         
         void Start()
         {
+            _rb = GetComponent<Rigidbody2D>();
             CenterProcess = GameObject.Find("CenterProcess").GetComponent<CenterProcess>();
             _anime = GetComponent<Animator>();                                //获取动画
             _buffRender = BuffSprite.GetComponent<SpriteRenderer>();
@@ -94,7 +95,7 @@ namespace Character
                 //gameObject.GetComponent<Rigidbody2D>().enable = false;
                 _isdead = true;
                 //anime.SetBool("isDead",true);
-               
+                _rb.mass = 9999;
                 CenterProcess.AddIntervalCoin(CoinValue);                        //如果本单位被击杀则给与对应的货币    
                 CenterProcess.OneShotKilling(shootername, guntype, Name);        //并更新一条击杀信息（给击杀面板）
 
@@ -103,7 +104,7 @@ namespace Character
                     CenterProcess.RemoveMonster();
                     _anime.SetBool("isDead",true);
                     
-                    Invoke("Destoryself",1f); 
+                    Invoke("Destoryself",0.3f); 
                 }else if (gameObject.CompareTag("Item")){                                            //判定本单位的Tag为Item时播放道具破坏的的音效
                     PlayerAudioCollection.GunCollection.Play("ItemDestory");
                     Invoke("Destoryself",1f);  
